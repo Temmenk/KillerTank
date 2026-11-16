@@ -14,6 +14,8 @@ public class SessionManager : MonoBehaviour
     [SerializeField] private TMP_InputField joinCodeInput;
     [SerializeField] private Button startGameButton;
     [SerializeField] private TMP_Text sessionCodeText;
+    [SerializeField] private TMP_Text PlayerCountText;
+
     [SerializeField] private string gameSceneName = "GameScene";
 
     private ISession session;
@@ -21,6 +23,10 @@ public class SessionManager : MonoBehaviour
 
     private void Update()
     {
+        if(session != null && PlayerCountText != null)
+        {
+            PlayerCountText.text = $"players: {session.PlayerCount}/4";
+        }
         if (startGameButton == null)
             return;
 
@@ -84,7 +90,7 @@ public class SessionManager : MonoBehaviour
         }.WithRelayNetwork(); // or WithDistributedAuthorityNetwork() to use Distributed Authority instead of Relay
         session = await MultiplayerService.Instance.CreateSessionAsync(options);
         Debug.Log($"Session {session.Id} created! Join code: {session.Code}");
-        sessionCodeText.text = "room code; " + session.Code;
+        sessionCodeText.text = "Room Code: " + session.Code;
     }
     
     public async void JoinSession()
