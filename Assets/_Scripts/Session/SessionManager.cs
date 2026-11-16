@@ -13,6 +13,7 @@ public class SessionManager : MonoBehaviour
 {
     [SerializeField] private TMP_InputField joinCodeInput;
     [SerializeField] private Button startGameButton;
+    [SerializeField] private TMP_Text sessionCodeText;
     [SerializeField] private string gameSceneName = "GameScene";
 
     private ISession session;
@@ -83,6 +84,7 @@ public class SessionManager : MonoBehaviour
         }.WithRelayNetwork(); // or WithDistributedAuthorityNetwork() to use Distributed Authority instead of Relay
         session = await MultiplayerService.Instance.CreateSessionAsync(options);
         Debug.Log($"Session {session.Id} created! Join code: {session.Code}");
+        sessionCodeText.text = "room code; " + session.Code;
     }
     
     public async void JoinSession()
